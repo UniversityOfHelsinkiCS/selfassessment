@@ -40,6 +40,12 @@ class gradingform_selfassessment_controller extends gradingform_controller {
      *
      */
     protected function load_definition() {
+        //The definition is ready by default
+        $this->definition->status = self::DEFINITION_STATUS_READY;
+
+        //
+        $this->definition->timecopied = 2;
+        $this->definition->timemodified = 2; 
     }
 
     /**
@@ -68,7 +74,29 @@ class gradingform_selfassessment_controller extends gradingform_controller {
      */
     protected function delete_plugin_definition() {
         global $DB;
-        }
+    }
+
+    /**
+     * Bad way to skip creating the form.
+     * TODO: find a better solution.
+     */
+    public function is_form_defined() {
+        return true;
+    }
+    
+    /**
+     * Would return URL of a page where the grading form can be defined and edited.
+     * But we only want to redirect back to viewing the settings.
+     *
+     * @param moodle_url $returnurl     
+     * @return moodle_url
+     */
+    public function get_editor_url(moodle_url $returnurl = null) { 
+        if (!is_null($returnurl)) {
+            $params['returnurl'] = $returnurl->out(false);
+        }   
+        return new moodle_url('/grade/grading/manage.php?areaid='.$this->get_areaid(), $params);
+    }
 }
 
 /**
