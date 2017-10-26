@@ -69,6 +69,7 @@ class gradingform_selfassessment_controller extends gradingform_controller {
         return '<div><canvas id="stage" height="400" width="520"></canvas>' . 
         "<script> 
         /**
+         * Thanks for the script Caio Paiola.
          * Namespace
          */
         var Game      = Game      || {};
