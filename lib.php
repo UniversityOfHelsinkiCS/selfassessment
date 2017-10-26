@@ -52,6 +52,23 @@ class gradingform_selfassessment_controller extends gradingform_controller {
         $returnvalue['maxscore'] += 20;
         return $returnvalue;
     }
+
+    /**
+     * Returns the HTML code displaying the preview of the grading form
+     *
+     * @param moodle_page $page the target page
+     * @return string
+     */
+    public function render_preview(moodle_page $page) {
+        return "<div> render preview </div>";
+    }
+
+    /**
+     * Deletes the guide definition and all the associated information
+     */
+    protected function delete_plugin_definition() {
+        global $DB;
+        }
 }
 
 /**
@@ -83,5 +100,17 @@ class gradingform_selfassessment_instance extends gradingform_instance {
      */
     public function get_grade() {
         return 0;
+    }
+
+
+    /**
+     * Returns html for form element of type 'grading'.
+     *
+     * @param moodle_page $page
+     * @param MoodleQuickForm_grading $gradingformelement
+     * @return string
+     */
+    public function render_grading_element($page, $gradingformelement) {
+        return "<div> render_grading_element </div>";
     }
 }
