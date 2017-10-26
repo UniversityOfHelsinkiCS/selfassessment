@@ -40,12 +40,22 @@ class gradingform_selfassessment_controller extends gradingform_controller {
      *
      */
     protected function load_definition() {
+        global $DB;      
+        $this->definition = $DB->get_record('grading_definitions', array(
+          'areaid' => $this->areaid,
+          'method' => $this->get_method_name()), '*', IGNORE_MISSING);
+
         //The definition is ready by default
         $this->definition->status = self::DEFINITION_STATUS_READY;
+        
+        //TODO set correct id
+        $this->definition->id = 1;
 
-        //
         $this->definition->timecopied = 2;
         $this->definition->timemodified = 2; 
+
+        //TODO get correct records
+        $DB->get_record('assignsubmission_submarker', array('submission' => 11));
     }
 
     /**
@@ -337,6 +347,9 @@ class gradingform_selfassessment_controller extends gradingform_controller {
  */
 class gradingform_selfassessment_instance extends gradingform_instance {
 
+    //Stores the exercises;
+    protected $exercises;
+
     /**
      * Updates the instance with the data received from grading form. This function may be
      * called via AJAX when grading is not yet completed, so it does not change the
@@ -346,6 +359,7 @@ class gradingform_selfassessment_instance extends gradingform_instance {
      */
     public function update($data) {
         global $DB;
+        $this->exercises = $DB->get_record('assignsubmission_submarker', array('submission' => 11));
     }
 
     /**
@@ -354,7 +368,15 @@ class gradingform_selfassessment_instance extends gradingform_instance {
      * @return float|int the valid grade from $this->get_controller()->get_grade_range()
      */
     public function get_grade() {
-        return 0;
+        global $DB;
+        $this->exercises = $DB->get_record('assignsubmission_submarker', array('submission' => 11));
+        $points = 23;
+        for ($i = 0; $i < strlen($this->exercises); $i++){
+          if ($this->exercises[$i] == '1') {
+              $points++;
+          }
+        }
+        return $points;
     }
 
 
@@ -366,6 +388,6 @@ class gradingform_selfassessment_instance extends gradingform_instance {
      * @return string
      */
     public function render_grading_element($page, $gradingformelement) {
-        return "<div> render_grading_element </div>";
+        return "Using self-assessment. You do not need to grade. Just press save.";
     }
 }
